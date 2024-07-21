@@ -89,3 +89,8 @@
     transform: translateY(-300px);
   }
 }
+
+.page-height {
+  /* height: calc(10vh_-_110px); */
+  height: 100vh;
+}

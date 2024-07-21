@@ -15,7 +15,7 @@ const LoadingScreenProvider = ({ children }: { children: ReactNode }) => {
         return <LoadingScreen />
     }
 
-    return <div className="bg-[url('/assets/images/space-bg.avif')] h-screen w-screen bg-no-repeat bg-cover bg-center">
+    return <div className="bg-[url('/assets/images/space-bg.avif')] h-full w-screen bg-no-repeat bg-cover bg-center">
         {children}
     </div>
 }

@@ -18,9 +18,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${montserrat.className} h-screen`}>
+      <body className={`${montserrat.className} min-h-screen max-h-screen h-screen`}>
         <LoadingScreenProvider>
-          {children}
+          <main className="h-[calc(100vh-110px)] bg-primary/40 backdrop-blur-[3px] text-white/80 py-10 px-4">
+            {children}
+          </main>
           <BottomMenus />
         </LoadingScreenProvider>
       </body>

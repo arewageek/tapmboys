@@ -28,8 +28,8 @@ const TapGlobe = () => {
 
         setClickCoordinate([{ x, y }, ...prevClicks])
 
-        console.log({ x: e.clientX, y: e.clientY })
-        console.log({ rx: x, y: y })
+        // console.log({ x: e.clientX, y: e.clientY })
+        // console.log({ rx: x, y: y })
 
         addPoints()
 

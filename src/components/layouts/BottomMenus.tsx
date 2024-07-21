@@ -1,5 +1,5 @@
 "use client"
-import { Coins, Fingerprint, HomeIcon, LineChart, ListChecks, Plus, PlusCircle, Rocket, User, Users, Users2 } from 'lucide-react'
+import { Coins, Fingerprint, HomeIcon, LineChart, ListChecks, Plus, PlusCircle, Rocket, Store, User, Users, Users2 } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '../ui/button'
 import { usePathname } from 'next/navigation'
@@ -9,11 +9,12 @@ const BottomMenus = () => {
     const pathname = usePathname()
 
     const links = [
-        { icon: <Users />, label: 'Ref', path: '/ref' },
+        { icon: <Users />, label: 'Ref', path: '/referrals' },
         { icon: <ListChecks />, label: 'Tasks', path: '/tasks' },
         { icon: <Fingerprint />, label: 'Tap', path: '/' },
         { icon: <Rocket />, label: 'Bonus', path: '/bonus' },
-        { icon: <LineChart />, label: 'Stats', path: '/bonus' },
+        { icon: <Store />, label: 'Market', path: '/market' },
+        { icon: <LineChart />, label: 'Stats', path: '/stats' },
     ]
 
     return (
