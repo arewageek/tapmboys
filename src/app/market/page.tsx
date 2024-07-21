@@ -1,5 +1,5 @@
 import CurrentPoints from '@/components/tasks/CurrentPoints'
-import React from 'react'
+
 
 const MarketPlace = () => {
     return (
