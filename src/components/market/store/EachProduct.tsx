@@ -6,28 +6,28 @@ export type ProductType = {
     image: string,
     name: string,
     profitPerHour: number,
-    level: number,
+    league: string,
     cost: number
-    onClick?: () => void
+    onclick?: () => void
 }
 
 const EachProduct = ({
-    image, name, profitPerHour, level, cost, onClick
+    image, name, profitPerHour, league, cost, onclick
 }: ProductType) => {
 
-    const handleClick = () => {
-        onClick()
-    }
+    // const handleClick = () => {
+    //     return onClick
+    // }
 
     return (
         <div className='p-1.5 w-1/2'>
-            <div onClick={handleClick} className='h-full w-full bg-black/80 backdrop-blur-sm rounded-3xl py-4 flex flex-col items-center text-left hover:bg-black/70 transition duration-100 hover:border-orange-300 border-black border-[1.5px] divide-y-2 divide-gray-700 cursor-pointer'>
+            <div onClick={onclick} className='h-full w-full bg-black/80 backdrop-blur-sm rounded-3xl py-4 flex flex-col items-center text-left hover:bg-black/70 transition duration-100 hover:border-orange-300 border-black border-[1.5px] divide-y-2 divide-gray-700 cursor-pointer'>
                 <div className='flex items-center gap-3 w-full px-3 py-2'>
                     <div className='text-2xl w-1/3'>
                         <Image src={image} alt="" height="45" width="45" />
                     </div>
                     <div className='flex flex-col gap-2 w-full'>
-                        <h2 className='font-extrabold text-md text-white'>
+                        <h2 className='font-extrabold text-md text-white capitalize'>
                             {name}
                         </h2>
                         <div>
@@ -42,13 +42,16 @@ const EachProduct = ({
                     </div>
                 </div>
                 <div className='divide-x-2 divide-gray-700 flex items-center gap-3 w-full px-5 pt-3 font-bold'>
-                    <div className='text-gray-500'>
-                        lvl {level}
+                    <div className='text-gray-500 capitalize'>
+                        {league}
                     </div>
                     <div className='px-3 font-bold text-white text-xl flex items-center gap-x-2'>
                         <Image src="/assets/images/coin.png" alt="" height="20" width="20" />
                         {cost >= 1000 ? (cost / 1000).toLocaleString() + 'K' : cost.toLocaleString()}
                     </div>
+                </div>
+                <div className='w-full pt-2 flex items-center justify-center text-sm font-bold'>
+                    Buy Now
                 </div>
             </div>
         </div>

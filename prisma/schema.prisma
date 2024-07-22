@@ -134,3 +134,12 @@ model Tasks {
   points      String
   icon        String
 }
+
+model Skins {
+  id            String @id @unique @default(cuid())
+  name          String
+  profitPerHour Int? @default(0)
+  image         String  @default("/assets/image/space-bg.avif")
+  cost          Int
+  league        String @default("pilot")
+}
