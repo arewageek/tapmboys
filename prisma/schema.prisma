@@ -16,6 +16,7 @@ model User {
   id            String          @id @default(cuid()) @unique
   name          String?
   chatId        String          @unique
+  points        Int
   active        Boolean         @default(true)
   lastLogin     DateTime        @default(now())
   referredBy    String?         @default("admin")

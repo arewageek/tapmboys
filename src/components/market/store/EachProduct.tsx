@@ -8,14 +8,20 @@ export type ProductType = {
     profitPerHour: number,
     level: number,
     cost: number
+    onClick?: () => void
 }
 
 const EachProduct = ({
-    image, name, profitPerHour, level, cost,
+    image, name, profitPerHour, level, cost, onClick
 }: ProductType) => {
+
+    const handleClick = () => {
+        onClick()
+    }
+
     return (
         <div className='p-1.5 w-1/2'>
-            <div className='h-full w-full bg-black/80 backdrop-blur-sm rounded-3xl py-4 flex flex-col items-center text-left hover:bg-black/70 transition duration-100 hover:border-orange-300 border-black border-[1.5px] divide-y-2 divide-gray-700 cursor-pointer'>
+            <div onClick={handleClick} className='h-full w-full bg-black/80 backdrop-blur-sm rounded-3xl py-4 flex flex-col items-center text-left hover:bg-black/70 transition duration-100 hover:border-orange-300 border-black border-[1.5px] divide-y-2 divide-gray-700 cursor-pointer'>
                 <div className='flex items-center gap-3 w-full px-3 py-2'>
                     <div className='text-2xl w-1/3'>
                         <Image src={image} alt="" height="45" width="45" />

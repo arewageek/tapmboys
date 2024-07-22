@@ -1,5 +1,7 @@
 "use server";
 
+import prisma from "@/lib/prisma";
+
 export type Leagues = {
   name: string;
   entry: number;
@@ -40,3 +42,28 @@ export async function allLeagues(): Promise<Leagues[]> {
 
   return leaguesList;
 }
+
+export async function updatePointsInDB({
+  points,
+  id,
+}: {
+  points: number;
+  id: string;
+}): Promise<"success" | "unknownError" | "userNotExist"> {
+  try {
+    const user = await prisma.user.findUnique({ where: { chatId: id } });
+
+    if (!user) return "userNotExist";
+
+    await prisma.user.update({ where: { chatId: id }, data: { points } });
+
+    return "success";
+  } catch (e) {
+    console.log(e);
+    return "unknownError";
+  }
+}
+
+// export async function getPoints (id: string){
+//   const user = await prisma.user.findUnique({ where})
+// }

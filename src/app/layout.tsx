@@ -3,6 +3,7 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import LoadingScreenProvider from "@/providers/LoadingScreenProvider";
 import BottomMenus from "@/components/layouts/BottomMenus";
+import AuthProvider from "@/providers/AuthProvider";
 
 const montserrat = Montserrat({ subsets: ["latin"], variable: '--montserat' });
 
@@ -19,12 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${montserrat.className} min-h-screen max-h-screen h-screen`}>
-        <LoadingScreenProvider>
-          <main className="h-[calc(100vh-110px)] bg-primary/40 backdrop-blur-[3px] text-white/80 py-10 px-4">
-            {children}
-          </main>
-          <BottomMenus />
-        </LoadingScreenProvider>
+        <AuthProvider>
+          <LoadingScreenProvider>
+            <main className="h-[calc(100vh-110px)] bg-primary/40 backdrop-blur-[3px] text-white/80 py-10 px-4">
+              {children}
+            </main>
+            <BottomMenus />
+          </LoadingScreenProvider>
+        </AuthProvider>
       </body>
     </html>
   );

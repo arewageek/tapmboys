@@ -4,6 +4,8 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { usePointsStore } from '@/store/PointsStore'
+import { useLocalPointsStorage } from '@/hooks/useLocalPointsStorage'
+import { usePushPointsToDB } from '@/hooks/usePushPointsToDB'
 
 
 interface ClickCoords {
@@ -16,6 +18,9 @@ const TapGlobe = () => {
     const [isTapping, setIsTapping] = useState<boolean>()
 
     const { addPoints, decreaseTapsLeft, tapLimit, currentTapsLeft, increaseTapsLeft } = usePointsStore()
+
+    useLocalPointsStorage()
+    usePushPointsToDB()
 
 
     const handleTap = (e: any) => {

@@ -19,7 +19,7 @@ export async function createAccount(
     const chatExist = await prisma.user.findUnique({ where: { chatId } });
     if (chatExist) return "accountAlreadyExist";
 
-    await prisma.user.create({ data: { chatId } });
+    await prisma.user.create({ data: { chatId, points: 0 } });
     return "success";
   } catch (e) {
     console.log(e);
@@ -63,7 +63,7 @@ export async function authenticateUserOrCreateAccount({
   chatId,
 }: {
   chatId: string;
-}): Promise<User2 | "unknownError" | "accountCreationFailed"> {
+}): Promise<"success" | "unknownError" | "accountCreationFailed"> {
   try {
     const userAuth = await authenticateUser({ chatId });
     if (userAuth === "userNotFound") {
@@ -72,7 +72,7 @@ export async function authenticateUserOrCreateAccount({
 
     const account = await prisma.user.findUnique({ where: { chatId } });
     if (!account) return "accountCreationFailed";
-    return account;
+    return "success";
   } catch (e) {
     console.log(e);
     return "unknownError";

@@ -11,8 +11,13 @@ type Points = {
   increaseTapsLeft: (count?: number) => void;
 };
 
+const authToken = window.localStorage.getItem("authToken");
+const pointsName = window.localStorage.getItem(
+  `${process.env.NEXT_PUBLIC_TAPPED_POINTS_KEYWORD!}`
+);
+
 export const usePointsStore = create<Points>((set, get) => ({
-  points: 0,
+  points: Number(window.localStorage.getItem("points")),
   tapLimit: 500,
   nextBenchmark: 1000,
   currentTapsLeft: 500,

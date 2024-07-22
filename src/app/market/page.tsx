@@ -1,4 +1,3 @@
-import Market from '@/components/market/Market'
 import MarketComponent from '@/components/market/MarketComponent'
 import CurrentPoints from '@/components/tasks/CurrentPoints'
 
