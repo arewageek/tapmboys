@@ -25,7 +25,7 @@ const TaskList = async () => {
                     <TabsContent value='special' className='w-full flex flex-col gap-y-4'>
                         <div className='w-full bg-primary/60 backdrop-blur-sm px-4 py-5 rounded-2xl flex items-center gap-x-3 hover:bg-black/70 transition duration-200 cursor-pointer hover:border-orange-300 border-black border-[1.5px]'>
                             <div className='text-5xl'>
-                                <FaSatelliteDish />
+                                <Image src="/assets/images/telegram3d.webp" height={80} width={80} alt="" />
                             </div>
                             <div className='flex gap-3 flex-col'>
                                 <h2 className='font-semibold text-md text-white'>
@@ -53,7 +53,7 @@ const TaskList = async () => {
                                 <div className='w-full flex items-center justify-between gap-x-3'>
                                     <div className='flex gap-x-6 items-center'>
                                         <div className='text-5xl'>
-                                            <FaTrophy />
+                                            <Image src={league.trophy} height={80} width={80} alt="" />
                                         </div>
                                         <div className='flex gap-3 flex-col'>
                                             <h2 className='font-semibold text-md text-white'>
@@ -85,7 +85,7 @@ const TaskList = async () => {
                         <div className='w-full bg-primary/60 backdrop-blur-sm px-4 py-5 rounded-2xl flex justify-between items-center gap-x-6 hover:bg-black/70 transition duration-200 cursor-pointer hover:border-orange-300 border-black border-[1.5px]'>
                             <div className='w-full flex items-center gap-x-3'>
                                 <div className='text-5xl'>
-                                    <FaSatelliteDish />
+                                    <Image src="/assets/images/friends.png" height={80} width={80} alt="" />
                                 </div>
                                 <div className='flex gap-3 flex-col'>
                                     <h2 className='font-semibold text-md text-white'>

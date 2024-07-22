@@ -1,27 +1,32 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { Bot } from "grammy";
 
-export async function POST() {
-  const bot = new Bot(process.env.TELEGRAM_BOT_API_KEY!);
+const bot = new Bot("6884436801:AAFSOhkRgrDoPy7S81lFVh-uReZ_5fM7rs4");
 
-  let chat;
+// export async function POST() {
+//   console.log("response");
+//   bot.command("start", (ctx) => console.log("received"));
 
-  //   bot.on("message", async (ctx) => {
-  //     // const msg = ctx.message;
+//   return "hello";
+// }
 
-  //     console.log("received");
-  //   });
+// export async function GET() {
+//   bot.command("start", (ctx) => console.log("received"));
 
-  await bot.api.setMyCommands([
-    { command: "start", description: "Start the bot" },
-    { command: "help", description: "Show help text" },
-    { command: "settings", description: "Open settings" },
-  ]);
+//   return "hello";
+// }
 
-  bot.command("start", (ctx) => ctx.reply("Welcome! Up and running."));
+async function handler() {
+  // bot.start(    () => console.log("ee"));
+  console.log("rddddddddddddddddddd");
 
-  return NextResponse.json({
-    type: "response",
-    chatId: chat,
-  });
+  return NextResponse.json({ done: "yes" });
 }
+
+export {
+  handler as GET,
+  handler as POST,
+  handler as PUT,
+  handler as DELETE,
+  handler as PUSH,
+};

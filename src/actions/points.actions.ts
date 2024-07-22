@@ -3,7 +3,7 @@
 export type Leagues = {
   name: string;
   entry: number;
-  planet: string;
+  trophy: string;
   limit: number;
 };
 
@@ -20,21 +20,21 @@ export async function allLeagues(): Promise<Leagues[]> {
       name: "Pilot",
       entry: 0,
       limit: 1000,
-      planet: "/assets/images/planet.png",
+      trophy: "/assets/images/trophy-bronze.png",
     },
 
     {
       name: "Explorer",
       entry: 1001,
       limit: 5000,
-      planet: "/assets/images/planet.png",
+      trophy: "/assets/images/trophy-silver.png",
     },
 
     {
       name: "Voyager",
       entry: 5001,
       limit: 10000,
-      planet: "/assets/images/planet.png",
+      trophy: "/assets/images/trophy-gold.webp",
     },
   ];
 

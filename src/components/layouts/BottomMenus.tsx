@@ -12,7 +12,7 @@ const BottomMenus = () => {
         { icon: <Users />, label: 'Ref', path: '/referrals' },
         { icon: <ListChecks />, label: 'Tasks', path: '/tasks' },
         { icon: <Fingerprint />, label: 'Tap', path: '/' },
-        { icon: <Rocket />, label: 'Bonus', path: '/bonus' },
+        // { icon: <Rocket />, label: 'Bonus', path: '/bonus' },
         { icon: <Store />, label: 'Market', path: '/market' },
         { icon: <LineChart />, label: 'Stats', path: '/stats' },
     ]
