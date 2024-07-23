@@ -110,3 +110,11 @@ export async function skinBuy({
     return { status: "errorOccurred" };
   }
 }
+
+export async function getCurrentSkin({ user }: { user: string }) {
+  const acct = await prisma.user.findUnique({ where: { chatId: user } });
+
+  const skin = acct?.skin;
+
+  return skin;
+}

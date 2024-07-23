@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { usePointsStore } from '@/store/PointsStore'
 import { useLocalPointsStorage } from '@/hooks/useLocalPointsStorage'
 import { usePushPointsToDB } from '@/hooks/usePushPointsToDB'
+import { useBoostersStore } from '@/store/useBoostrsStore'
 
 
 interface ClickCoords {
@@ -17,7 +18,8 @@ const TapGlobe = () => {
     const [clickCoordinate, setClickCoordinate] = useState<ClickCoords[]>([])
     const [isTapping, setIsTapping] = useState<boolean>()
 
-    const { addPoints, decreaseTapsLeft, tapLimit, currentTapsLeft, increaseTapsLeft } = usePointsStore()
+    const { addPoints, decreaseTapsLeft, tapLimit, currentTapsLeft, increaseTapsLeft, tapInBoostMode } = usePointsStore()
+    const { secondsLeft, decreaseSecondsLeft } = useBoostersStore()
 
     useLocalPointsStorage()
     usePushPointsToDB()
@@ -35,13 +37,19 @@ const TapGlobe = () => {
 
         // console.log({ x: e.clientX, y: e.clientY })
         // console.log({ rx: x, y: y })
+        console.log(secondsLeft)
 
-        addPoints()
+        if (secondsLeft > 0) {
+            tapInBoostMode(7)
+        }
+        else {
+            addPoints()
 
-        decreaseTapsLeft(1)
+            decreaseTapsLeft(1)
 
-        setIsTapping(true)
-        setTimeout(() => setIsTapping(false), 2000);
+            setIsTapping(true)
+            setTimeout(() => setIsTapping(false), 2000);
+        }
 
     }
 
@@ -66,6 +74,11 @@ const TapGlobe = () => {
 
     }, [isTapping])
 
+    useEffect(() => {
+        const intervalId = setInterval(() => secondsLeft > 0 && decreaseSecondsLeft(), 1000)
+        return () => clearInterval(intervalId)
+    }, [secondsLeft])
+
     return (
         <div className='relative'>
             <Image src="/assets/images/planet.png" height={200} width={200} alt="" onClick={handleTap} className='transition duration-300 cursor-pointer' />
@@ -74,7 +87,7 @@ const TapGlobe = () => {
                 left: click.x,
                 top: click.y,
             }}>
-                +1
+                +{secondsLeft > 0 ? 7 : 1}
             </div>)}
         </div>
     )

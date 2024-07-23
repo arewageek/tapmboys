@@ -4,6 +4,8 @@ import "./globals.css";
 import LoadingScreenProvider from "@/providers/LoadingScreenProvider";
 import BottomMenus from "@/components/layouts/BottomMenus";
 import AuthProvider from "@/providers/AuthProvider";
+import { ToastContainer } from 'react-toastify'
+import "react-toastify/ReactToastify.css"
 
 const montserrat = Montserrat({ subsets: ["latin"], variable: '--montserat' });
 
@@ -28,6 +30,7 @@ export default function RootLayout({
             <BottomMenus />
           </LoadingScreenProvider>
         </AuthProvider>
+        <ToastContainer />
       </body>
     </html>
   );

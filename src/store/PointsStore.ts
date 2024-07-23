@@ -1,3 +1,4 @@
+import { getCurrentSkin } from "@/actions/skins.actions";
 import { create } from "zustand";
 
 type Points = {
@@ -11,30 +12,24 @@ type Points = {
   increaseTapsLeft: (count?: number) => void;
   skin: string | null;
   setSkin: (image: string) => void;
+  lastTap: number;
+  tapInBoostMode: (count: number) => void;
+  initializePoints: (initial: number) => void;
 };
 
-const authToken = window.localStorage.getItem("authToken");
-const pointsName = window.localStorage.getItem(
-  `${process.env.NEXT_PUBLIC_TAPPED_POINTS_KEYWORD!}`
-);
-
-const skinVal = window.localStorage.getItem("skin");
-const skinData =
-  skinVal != undefined ? skinVal : "/assets/images/space-bg.avif";
-
 export const usePointsStore = create<Points>((set, get) => ({
-  points: Number(window.localStorage.getItem("points")),
+  points: 0,
   tapLimit: 500,
   nextBenchmark: 1000,
   currentTapsLeft: 500,
   lastTap: 0,
-  skin: skinData,
+  skin: "/assets/images/space-bg.avif",
   addPoints: (count) => {
     const { points } = get();
 
     count = count ? count : 1;
 
-    set({ points: points + count });
+    set({ points: points + count, lastTap: Date.now() }); // Update lastTap
   },
   reducePoints: (count) => {
     const { points } = get();
@@ -55,5 +50,12 @@ export const usePointsStore = create<Points>((set, get) => ({
   },
   setSkin: (image) => {
     set({ skin: image });
+  },
+  tapInBoostMode: (count) => {
+    const { points } = get();
+    set({ points: points + count });
+  },
+  initializePoints: (initial) => {
+    set({ points: initial });
   },
 }));

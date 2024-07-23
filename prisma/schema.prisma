@@ -16,11 +16,21 @@ model User {
   id            String          @id @default(cuid()) @unique
   name          String?
   chatId        String          @unique
-  points        Int
+  taps          Int             @default(0)
+  points        Int             @default(0)
+  rechargeLimit Int             @default(500)
+  pointPerTap   Int             @default(1)
+  refillRate    Int             @default(1)
+  bonus         Int             @default(0)
   active        Boolean         @default(true)
+  skin          String          @default("/assets/images/space-bg.avif")
   lastLogin     DateTime        @default(now())
   referredBy    String?         @default("admin")
   referralLink  String?
+  league        String?         @default("beginner")
+
+  // dailyBoosts   DailyBoosters[]
+  
   accounts      Account[]
   sessions      Session[]
   // Optional for WebAuthn support
@@ -88,7 +98,7 @@ model Authenticator {
 }
 
 
-model Legues {
+model Leagues {
   id            String @id @default(cuid()) @unique
   name          String
   minEntry      Int
@@ -117,9 +127,12 @@ model Bonuster {
 
 model DailyBoosters {
   id        String @id @default(cuid()) @unique
+  // userId    String
   name      String
-  count     String
+  count     Int
   icon      String
+
+  // user User @relation(fields: [userId], onDelete: Cascade, references: [chatId])
 }
 
 model TaskCategories  {
@@ -139,7 +152,8 @@ model Skins {
   id            String @id @unique @default(cuid())
   name          String
   profitPerHour Int? @default(0)
-  image         String  @default("/assets/image/space-bg.avif")
+  image         String  @default("/assets/images/space-bg.avif")
   cost          Int
   league        String @default("pilot")
 }
+
