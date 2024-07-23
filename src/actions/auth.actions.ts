@@ -16,7 +16,9 @@ export async function createAccount(
   chatId: string
 ): Promise<"success" | "accountAlreadyExist" | "unknownError"> {
   try {
-    const chatExist = await prisma.user.findUnique({ where: { chatId } });
+    const chatExist = await prisma.user.findUnique({
+      where: { chatId, lastProfitDate: Date.now() },
+    });
     if (chatExist) return "accountAlreadyExist";
 
     await prisma.user.create({ data: { chatId, points: 0 } });

@@ -5,12 +5,14 @@ import LoadingScreen from "@/components/LoadingScreen"
 import useLoadingScreenStore from "@/store/loadingScreenStore"
 import { usePointsStore } from "@/store/PointsStore"
 import usePointsInitializer from "@/hooks/usePointsInitializer"
+import useUserPointsConfig from "@/hooks/useUserPointsConfig"
 
 const LoadingScreenProvider = ({ children }: { children: ReactNode }) => {
     const { isLoading } = useLoadingScreenStore()
     const { skin } = usePointsStore()
 
     usePointsInitializer()
+    useUserPointsConfig()
 
     useEffect(() => {
         console.log(isLoading);

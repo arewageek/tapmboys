@@ -8,6 +8,7 @@ import { Progress } from '../ui/progress'
 import LeagueProgress from '@/app/tasks/LeagueProgress'
 import { allLeagues, leagueData } from '@/actions/points.actions'
 import EachLeague from './EachLeague'
+import EachTaskSpecial from './EachTaskSpecial'
 
 const TaskList = async () => {
     const leagues = await allLeagues()
@@ -24,26 +25,7 @@ const TaskList = async () => {
 
                 <div>
                     <TabsContent value='special' className='w-full flex flex-col gap-y-4'>
-                        <div className='w-full bg-primary/60 backdrop-blur-sm px-4 py-5 rounded-2xl flex items-center gap-x-3 hover:bg-black/70 transition duration-200 cursor-pointer hover:border-orange-300 border-black border-[1.5px]'>
-                            <div className='text-5xl'>
-                                <Image src="/assets/images/telegram3d.webp" height={80} width={80} alt="" />
-                            </div>
-                            <div className='flex gap-3 flex-col'>
-                                <h2 className='font-semibold text-md text-white'>
-                                    Subscribe to Telegram Channel
-                                </h2>
-                                <div className='flex items-center gap-2'>
-                                    <Image src="/assets/images/planet.png" height={25} width={25} alt="" />
-                                    <p>
-                                        15000
-                                    </p>
-                                </div>
-                            </div>
-
-                            <Button variant='ghost' className='p-0 hover:bg-transparent hover:text-orange-300 px-3 py-2'>
-                                <FaCaretRight />
-                            </Button>
-                        </div>
+                        <EachTaskSpecial task='Subscribe to Telegram Channel' reward={1400} />
                     </TabsContent>
 
 

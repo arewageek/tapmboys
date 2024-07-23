@@ -1,11 +1,11 @@
 import { getCurrentSkin } from "@/actions/skins.actions";
 import { create } from "zustand";
+import { useBoostersStore } from "./useBoostrsStore";
 
 type Points = {
   points: number;
   addPoints: (count?: number) => void;
   reducePoints: (count?: number) => void;
-  tapLimit: number;
   nextBenchmark: number;
   currentTapsLeft: number;
   decreaseTapsLeft: (count?: number) => void;
@@ -19,9 +19,8 @@ type Points = {
 
 export const usePointsStore = create<Points>((set, get) => ({
   points: 0,
-  tapLimit: 500,
   nextBenchmark: 1000,
-  currentTapsLeft: 500,
+  currentTapsLeft: useBoostersStore.getState().energyCapacity,
   lastTap: 0,
   skin: "/assets/images/space-bg.avif",
   addPoints: (count) => {

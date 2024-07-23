@@ -9,6 +9,15 @@ export type BoostersStore = {
   decreaseTapCommando: () => void;
   decreaseSecondsLeft: () => void;
   setSecondsLeft: (val: number) => void;
+
+  //   one time boosts
+  energyCapacity: number;
+  rechargeVelocity: number;
+  multiClickLevel: number;
+
+  setEnergyCapacity: (val: number) => void;
+  setRechargeVelocity: (vl: number) => void;
+  setMultiClickLevel: (val: number) => void;
 };
 
 export const useBoostersStore = create<BoostersStore>((set, get) => ({
@@ -32,4 +41,13 @@ export const useBoostersStore = create<BoostersStore>((set, get) => ({
   setSecondsLeft: (val) => {
     set({ secondsLeft: val });
   },
+
+  //   one time boosts
+  energyCapacity: 500,
+  multiClickLevel: 1,
+  rechargeVelocity: 1,
+
+  setMultiClickLevel: (val) => set({ multiClickLevel: val }),
+  setRechargeVelocity: (val) => set({ rechargeVelocity: val }),
+  setEnergyCapacity: (val) => set({ energyCapacity: val }),
 }));

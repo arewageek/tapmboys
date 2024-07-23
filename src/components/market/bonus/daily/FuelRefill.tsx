@@ -8,17 +8,18 @@ import { toast } from 'react-toastify'
 
 const FuelRefill = () => {
 
-    const { currentTapsLeft, tapLimit, increaseTapsLeft } = usePointsStore()
-    const { refill, decreaseRefill } = useBoostersStore()
+    const { currentTapsLeft, increaseTapsLeft } = usePointsStore()
+    const { refill, decreaseRefill, energyCapacity } = useBoostersStore()
 
     const handleFuelRefill = () => {
         if (refill > 0) {
-            const tapsToAdd = tapLimit - currentTapsLeft
+            const tapsToAdd = energyCapacity - currentTapsLeft
+            console.log(energyCapacity)
 
             increaseTapsLeft(tapsToAdd)
             decreaseRefill()
 
-            toast.success("Taps refilled")
+            toast.success("Taps refilled" + energyCapacity)
         }
     }
 
