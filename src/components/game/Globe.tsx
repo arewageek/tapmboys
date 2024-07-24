@@ -7,6 +7,7 @@ import { usePointsStore } from '@/store/PointsStore'
 import { useLocalPointsStorage } from '@/hooks/useLocalPointsStorage'
 import { usePushPointsToDB } from '@/hooks/usePushPointsToDB'
 import { useBoostersStore } from '@/store/useBoostrsStore'
+import useUserPointsConfig from '@/hooks/useUserPointsConfig'
 
 
 interface ClickCoords {
@@ -20,6 +21,7 @@ const TapGlobe = () => {
 
     const { addPoints, decreaseTapsLeft, tapLimit, currentTapsLeft, increaseTapsLeft, tapInBoostMode } = usePointsStore()
     const { secondsLeft, decreaseSecondsLeft } = useBoostersStore()
+    const { multiClickLevel } = useBoostersStore()
 
     useLocalPointsStorage()
     usePushPointsToDB()
@@ -35,15 +37,13 @@ const TapGlobe = () => {
 
         setClickCoordinate([{ x, y }, ...prevClicks])
 
-        // console.log({ x: e.clientX, y: e.clientY })
-        // console.log({ rx: x, y: y })
         console.log(secondsLeft)
 
         if (secondsLeft > 0) {
-            tapInBoostMode(7)
+            tapInBoostMode(7 * multiClickLevel)
         }
         else {
-            addPoints()
+            addPoints(multiClickLevel)
 
             decreaseTapsLeft(1)
 
@@ -87,7 +87,7 @@ const TapGlobe = () => {
                 left: click.x,
                 top: click.y,
             }}>
-                +{secondsLeft > 0 ? 7 : 1}
+                +{(secondsLeft > 0 ? 7 : 1) * multiClickLevel}
             </div>)}
         </div>
     )

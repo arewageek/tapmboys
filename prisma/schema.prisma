@@ -18,8 +18,11 @@ model User {
   chatId        String          @unique
   taps          Int             @default(0)
   points        Int             @default(0)
+  profit        Int             @default(0)
+  lastProfitDate  Int?
   rechargeLimit Int             @default(500)
   pointPerTap   Int             @default(1)
+  profitPerHour Int             @default(0)
   refillRate    Int             @default(1)
   bonus         Int             @default(0)
   active        Boolean         @default(true)
@@ -35,6 +38,8 @@ model User {
   sessions      Session[]
   // Optional for WebAuthn support
   Authenticator Authenticator[]
+
+  // taskCompletion  TasksCompletion[]
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -144,7 +149,7 @@ model Tasks {
   id          String @id @unique @default(cuid())
   category    String
   name        String
-  points      String
+  points      Int
   icon        String
 }
 
@@ -157,3 +162,11 @@ model Skins {
   league        String @default("pilot")
 }
 
+model TasksCompletion {
+  id            String @id @unique @default(cuid())
+  taskId        String
+  userId        String
+  reward        Int
+  
+  // user          User? @relation(fields: [userId], onDelete: Cascade, references: [id])
+}
