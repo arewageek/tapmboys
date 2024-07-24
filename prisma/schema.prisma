@@ -39,7 +39,7 @@ model User {
   // Optional for WebAuthn support
   Authenticator Authenticator[]
 
-  taskCompletion  TasksCompletion[]
+  // taskCompletion  TasksCompletion[]
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -149,7 +149,7 @@ model Tasks {
   id          String @id @unique @default(cuid())
   category    String
   name        String
-  points      String
+  points      Int
   icon        String
 }
 
@@ -168,5 +168,5 @@ model TasksCompletion {
   userId        String
   reward        Int
   
-  user User @relation(fields: [userId], onDelete: Cascade, references: [id])
+  // user          User? @relation(fields: [userId], onDelete: Cascade, references: [id])
 }

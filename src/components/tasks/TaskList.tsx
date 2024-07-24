@@ -9,10 +9,13 @@ import LeagueProgress from '@/app/tasks/LeagueProgress'
 import { allLeagues, leagueData } from '@/actions/points.actions'
 import EachLeague from './EachLeague'
 import EachTaskSpecial from './EachTaskSpecial'
+import { tasksList } from '@/actions/tasks.actions'
 
 const TaskList = async () => {
     const leagues = await allLeagues()
     const currentLeagueStatus = await leagueData()
+
+    const tasks = await tasksList()
 
     return (
         <div className='flex flex-col items-center justify-center w-full'>
@@ -20,12 +23,14 @@ const TaskList = async () => {
                 <TabsList className='bg-white/5 backdrop-blur-md border-white/20 border-[1.5px] py-2 text-white/70 w-full justify-between'>
                     <TabsTrigger className="w-full" value="special">Special</TabsTrigger>
                     <TabsTrigger className="w-full" value="leagues">Leagues</TabsTrigger>
-                    <TabsTrigger className="w-full" value="ref">Ref Tasks</TabsTrigger>
+                    {/* <TabsTrigger className="w-full" value="ref">Ref Tasks</TabsTrigger> */}
                 </TabsList>
 
                 <div>
                     <TabsContent value='special' className='w-full flex flex-col gap-y-4'>
-                        <EachTaskSpecial task='Subscribe to Telegram Channel' reward={1400} />
+                        {tasks.length > 0 && tasks.map((T, _) =>
+                            <EachTaskSpecial key={_} task={T.name} reward={T.points} image={T.icon} id={T.id} />
+                        )}
                     </TabsContent>
 
 
