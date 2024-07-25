@@ -27,7 +27,7 @@ export async function createAccount(
     // if (chatExist) return "accountAlreadyExist";
 
     const user = new User({
-      chatId: crypto.randomUUID(),
+      chatId,
     });
 
     user.save();

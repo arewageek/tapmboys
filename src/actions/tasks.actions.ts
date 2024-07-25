@@ -1,6 +1,8 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import Tasks from "@/models/Tasks";
+import User from "@/models/user";
 
 export type TasksList = {
   id?: string;
@@ -17,10 +19,16 @@ export type CompletedTasksType = {
 };
 
 export async function tasksList(): Promise<TasksList[] | []> {
-  const tasks = await prisma.tasks.findMany();
+  try {
+    const tasks = await Tasks.find();
+    console.log(tasks);
 
-  if (!tasks) return [];
-  return tasks;
+    // if (!tasks) return [];
+    return tasks;
+  } catch (error) {
+    console.log({ error });
+    return [];
+  }
 }
 
 export async function completeTask({
@@ -31,10 +39,12 @@ export async function completeTask({
   taskId: string;
 }): Promise<"success" | "unknownError" | "invalidTask" | "userNotExist"> {
   try {
-    const task = await prisma.tasks.findUnique({ where: { id: taskId } });
+    const task = await Tasks.find({ where: { id: taskId } });
     if (!task) return "invalidTask";
 
-    const user = await prisma.user.findUnique({ where: { chatId: userId } });
+    const user = await User.find({ where: { chatId: userId } });
+    console.log(user);
+
     if (!user) return "userNotExist";
 
     await prisma.tasksCompletion.create({
