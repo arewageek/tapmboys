@@ -21,10 +21,10 @@ export async function createAccount(
   try {
     await connectMongoDB();
 
-    // const chatExist = await User.find({
-    //   where: { chatId },
-    // });
-    // if (chatExist) return "accountAlreadyExist";
+    const chatExist = await User.find({
+      where: { chatId },
+    });
+    if (chatExist) return "accountAlreadyExist";
 
     const user = new User({
       chatId,

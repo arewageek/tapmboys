@@ -1,10 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 
-export const TaskSchema = new Schema(
+const TaskSchema = new Schema(
   {
     category: { type: String },
     name: { type: String, reqired: true },
-    points: { type: Number, defaul: 0 },
+    points: { type: Number, default: 0, required: false },
     image: { type: String, required: true },
   },
   { timestamps: true }

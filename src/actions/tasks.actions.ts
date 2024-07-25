@@ -1,5 +1,6 @@
 "use server";
 
+import { connectMongoDB } from "@/lib/mongodb";
 import prisma from "@/lib/prisma";
 import Tasks from "@/models/Tasks";
 import TasksCompletion from "@/models/taskCompletion";
@@ -19,10 +20,13 @@ export type CompletedTasksType = {
   reward: number;
 };
 
-export async function tasksList(): Promise<TasksList[] | []> {
+export async function tasksList(): Promise<(typeof Tasks)[] | []> {
   try {
+    connectMongoDB();
+
     const tasks = await Tasks.find();
-    console.log(tasks);
+
+    // console.log(tasks);
 
     return tasks;
   } catch (error) {
@@ -37,15 +41,26 @@ export async function completeTask({
 }: {
   userId: string;
   taskId: string;
-}): Promise<"success" | "unknownError" | "invalidTask" | "userNotExist"> {
+}): Promise<
+  | "success"
+  | "unknownError"
+  | "invalidTask"
+  | "userNotExist"
+  | "taskAlreadyCompleted"
+> {
   try {
-    const task: typeof Tasks = await Tasks.find({ $where: { id: taskId } });
+    connectMongoDB();
+
+    const task = await Tasks.find({ where: { id: taskId } });
     if (!task) return "invalidTask";
 
     const user = await User.find({ where: { chatId: userId } });
     console.log(user);
 
     if (!user) return "userNotExist";
+
+    const taskCompletion = await Tasks.find({ where: { taskId, userId } });
+    if (taskCompletion) return "taskAlreadyCompleted";
 
     await TasksCompletion.create({
       reward: task.points,
@@ -68,7 +83,9 @@ export async function checkCompletedTasks({
   userId: string;
 }): Promise<boolean> {
   try {
-    const completion = await prisma.tasksCompletion.findFirst({
+    connectMongoDB();
+
+    const completion = await TasksCompletion.find({
       where: { userId, taskId },
     });
 

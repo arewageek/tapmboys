@@ -1,7 +1,10 @@
 "use server";
 
+import { connectMongoDB } from "@/lib/mongodb";
 import prisma from "@/lib/prisma";
 import Skins from "@/models/skiins";
+
+connectMongoDB();
 
 export type SkinType = {
   id?: string;
@@ -53,7 +56,7 @@ export async function getSkinById(
   id: string
 ): Promise<(typeof Skins)[] | "skinNotFound" | "unknownError"> {
   try {
-    const skin = await Skins.find({ where: { id } });
+    const skin = await Skins.findById(id);
     if (!skin) return "skinNotFound";
     return skin;
   } catch (e) {
@@ -103,6 +106,7 @@ export async function skinBuy({
         where: { chatId },
         data: { points: newBalance },
       });
+
       return { points: newBalance, status: "success", image: skin.image };
     }
   } catch (e) {

@@ -3,10 +3,14 @@ import mongoose, { Schema } from "mongoose";
 export const SkinSchema = new Schema(
   {
     name: { type: String },
-    profitPerHour: { type: Number, default: 0 },
-    image: { type: Number, defaul: 0 },
+    profitPerHour: { type: Number, default: 0, required: true },
+    image: {
+      type: String,
+      default: "/assets/images/space-bg.avif",
+      required: true,
+    },
     cost: { type: Number, required: true },
-    league: { type: String, default: "intern" },
+    league: { type: String, default: "intern", required: true },
   },
   { timestamps: true }
 );
