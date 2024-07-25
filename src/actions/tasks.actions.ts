@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import Tasks from "@/models/Tasks";
+import TasksCompletion from "@/models/taskCompletion";
 import User from "@/models/user";
 
 export type TasksList = {
@@ -23,7 +24,6 @@ export async function tasksList(): Promise<TasksList[] | []> {
     const tasks = await Tasks.find();
     console.log(tasks);
 
-    // if (!tasks) return [];
     return tasks;
   } catch (error) {
     console.log({ error });
@@ -39,7 +39,7 @@ export async function completeTask({
   taskId: string;
 }): Promise<"success" | "unknownError" | "invalidTask" | "userNotExist"> {
   try {
-    const task = await Tasks.find({ where: { id: taskId } });
+    const task: typeof Tasks = await Tasks.find({ $where: { id: taskId } });
     if (!task) return "invalidTask";
 
     const user = await User.find({ where: { chatId: userId } });
@@ -47,12 +47,10 @@ export async function completeTask({
 
     if (!user) return "userNotExist";
 
-    await prisma.tasksCompletion.create({
-      data: {
-        reward: task.points,
-        taskId,
-        userId,
-      },
+    await TasksCompletion.create({
+      reward: task.points,
+      taskId,
+      userId,
     });
 
     return "success";
