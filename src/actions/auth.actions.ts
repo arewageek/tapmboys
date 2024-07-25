@@ -1,6 +1,8 @@
 "use server";
 
+import { connectMongoDB } from "@/lib/mongodb";
 import prisma from "@/lib/prisma";
+import User from "@/models/user";
 
 export type User = {
   id: string;
@@ -16,12 +18,15 @@ export async function createAccount(
   chatId: string
 ): Promise<"success" | "accountAlreadyExist" | "unknownError"> {
   try {
-    const chatExist = await prisma.user.findUnique({
-      where: { chatId, lastProfitDate: Date.now() },
+    await connectMongoDB();
+
+    const chatExist = await User.find({
+      where: { chatId },
     });
     if (chatExist) return "accountAlreadyExist";
 
-    await prisma.user.create({ data: { chatId, points: 0 } });
+    await User.create({ chatId });
+
     return "success";
   } catch (e) {
     console.log(e);
@@ -35,7 +40,7 @@ export async function authenticateUser({
   chatId: string;
 }): Promise<User | "userNotFound" | "unknownError"> {
   try {
-    const user = await prisma.user.findUnique({ where: { chatId } });
+    const user = await User.find({ where: { chatId } });
     if (!user) return "userNotFound";
     return user;
   } catch (err) {

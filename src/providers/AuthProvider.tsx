@@ -7,8 +7,10 @@ import React, { useEffect } from 'react'
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
-    const params = useSearchParams()
-    const id = params.get('id')
+    // const params = useSearchParams()
+    // const id = params.get('id')
+
+    const id = crypto.randomUUID()
 
     // const pointsInLocalStorage = window.localStorage.getItem("points")
 

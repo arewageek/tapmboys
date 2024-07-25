@@ -122,7 +122,7 @@ model Points {
   lastTap   DateTime
 }
 
-model Bonuster {
+model Booster {
   id            String @id @default(cuid()) @unique
   name          String
   icon          String

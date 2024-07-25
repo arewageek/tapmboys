@@ -3,22 +3,32 @@ import { Bot } from "grammy";
 
 const bot = new Bot("6884436801:AAFSOhkRgrDoPy7S81lFVh-uReZ_5fM7rs4");
 
-// export async function POST() {
-//   console.log("response");
-//   bot.command("start", (ctx) => console.log("received"));
+type ValidMessageType = {
+  data: {
+    update_id: number;
+    message?: {
+      message_id: number;
+      from?: [];
+      chat?: [];
+      date: number;
+      text: string;
+      entities?: [];
+    };
+  };
+};
 
-//   return "hello";
-// }
-
-// export async function GET() {
-//   bot.command("start", (ctx) => console.log("received"));
-
-//   return "hello";
-// }
-
-async function handler() {
+async function handler(request: NextRequest) {
   // bot.start(    () => console.log("ee"));
   console.log("rddddddddddddddddddd");
+
+  const data: Promise<ValidMessageType> = await request.json();
+  console.log({ data: await data });
+  console.log({ from: await data?.message.chat.id });
+  // bot.api.sendMessage(await data?.message?.message_id, "hello");
+
+  bot.command("start", () => {
+    console.log({ input: "received" });
+  });
 
   return NextResponse.json({ done: "yes" });
 }
