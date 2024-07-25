@@ -17,13 +17,10 @@ type ValidMessageType = {
   };
 };
 
-async function handler(request: NextRequest) {
-  // bot.start(    () => console.log("ee"));
-  console.log("rddddddddddddddddddd");
-
+export async function POST(request: NextRequest) {
   const data: Promise<ValidMessageType> = await request.json();
   console.log({ data: await data });
-  console.log({ from: await data?.message.chat.id });
+  // console.log({ from: await data?.message.chat.id });
   // bot.api.sendMessage(await data?.message?.message_id, "hello");
 
   bot.command("start", () => {
@@ -33,10 +30,4 @@ async function handler(request: NextRequest) {
   return NextResponse.json({ done: "yes" });
 }
 
-export {
-  handler as GET,
-  handler as POST,
-  handler as PUT,
-  handler as DELETE,
-  handler as PUSH,
-};
+// export { handler as GET, handler as POST, handler as PUT };
