@@ -24,6 +24,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                     localStorage.setItem('authToken', `${id}`)
                 }
                 else {
+                    console.log(authenticate)
                     alert("Could not authenticate you")
                 }
 

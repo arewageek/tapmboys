@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import Skins from "@/models/skiins";
 
 export type SkinType = {
   id?: string;
@@ -37,14 +38,24 @@ export async function createSkin({
 }
 
 export async function getSkins(): Promise<
-  SkinType[] | "unknownError" | "skinNotFound"
+  (typeof User)[] | "unknownError" | "skinNotFound"
 > {
+  // try {
+  //   const skins = await prisma.skins.findMany();
+  //   if (!skins) return "skinNotFound";
+  //   return skins;
+  // } catch (e) {
+  //   console.log(e);
+  //   return "unknownError";
+  // }
+
   try {
-    const skins = await prisma.skins.findMany();
-    if (!skins) return "skinNotFound";
+    const skins = await Skins.find();
+    console.log({ skins });
+
     return skins;
-  } catch (e) {
-    console.log(e);
+  } catch (error) {
+    console.log(error);
     return "unknownError";
   }
 }
