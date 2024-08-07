@@ -1,6 +1,10 @@
 "use server";
 
+import { connectMongoDB } from "@/lib/mongodb";
 import prisma from "@/lib/prisma";
+import Tasks from "@/models/Tasks";
+import TasksCompletion from "@/models/taskCompletion";
+import User from "@/models/user";
 
 export type TasksList = {
   id?: string;
@@ -16,11 +20,19 @@ export type CompletedTasksType = {
   reward: number;
 };
 
-export async function tasksList(): Promise<TasksList[] | []> {
-  const tasks = await prisma.tasks.findMany();
+export async function tasksList(): Promise<(typeof Tasks)[] | []> {
+  try {
+    connectMongoDB();
 
-  if (!tasks) return [];
-  return tasks;
+    const tasks = await Tasks.find();
+
+    // console.log(tasks);
+
+    return tasks;
+  } catch (error) {
+    console.log({ error });
+    return [];
+  }
 }
 
 export async function completeTask({
@@ -29,20 +41,31 @@ export async function completeTask({
 }: {
   userId: string;
   taskId: string;
-}): Promise<"success" | "unknownError" | "invalidTask" | "userNotExist"> {
+}): Promise<
+  | "success"
+  | "unknownError"
+  | "invalidTask"
+  | "userNotExist"
+  | "taskAlreadyCompleted"
+> {
   try {
-    const task = await prisma.tasks.findUnique({ where: { id: taskId } });
+    connectMongoDB();
+
+    const task = await Tasks.find({ where: { id: taskId } });
     if (!task) return "invalidTask";
 
-    const user = await prisma.user.findUnique({ where: { chatId: userId } });
+    const user = await User.find({ where: { chatId: userId } });
+    console.log(user);
+
     if (!user) return "userNotExist";
 
-    await prisma.tasksCompletion.create({
-      data: {
-        reward: task.points,
-        taskId,
-        userId,
-      },
+    const taskCompletion = await Tasks.find({ where: { taskId, userId } });
+    if (taskCompletion) return "taskAlreadyCompleted";
+
+    await TasksCompletion.create({
+      reward: task.points,
+      taskId,
+      userId,
     });
 
     return "success";
@@ -60,7 +83,9 @@ export async function checkCompletedTasks({
   userId: string;
 }): Promise<boolean> {
   try {
-    const completion = await prisma.tasksCompletion.findFirst({
+    connectMongoDB();
+
+    const completion = await TasksCompletion.find({
       where: { userId, taskId },
     });
 

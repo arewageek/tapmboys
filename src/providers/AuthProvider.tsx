@@ -7,8 +7,10 @@ import React, { useEffect } from 'react'
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
-    const params = useSearchParams()
-    const id = params.get('id')
+    // const params = useSearchParams()
+    // const id = params.get('id')
+
+    const id = crypto.randomUUID()
 
     // const pointsInLocalStorage = window.localStorage.getItem("points")
 
@@ -22,6 +24,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                     localStorage.setItem('authToken', `${id}`)
                 }
                 else {
+                    console.log(authenticate)
                     alert("Could not authenticate you")
                 }
 

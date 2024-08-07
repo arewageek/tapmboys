@@ -10,12 +10,13 @@ import { allLeagues, leagueData } from '@/actions/points.actions'
 import EachLeague from './EachLeague'
 import EachTaskSpecial from './EachTaskSpecial'
 import { tasksList } from '@/actions/tasks.actions'
+import Tasks from '@/models/Tasks'
 
 const TaskList = async () => {
     const leagues = await allLeagues()
     const currentLeagueStatus = await leagueData()
 
-    const tasks = await tasksList()
+    const tasks: (typeof Tasks)[] = await tasksList()
 
     return (
         <div className='flex flex-col items-center justify-center w-full'>
@@ -29,7 +30,7 @@ const TaskList = async () => {
                 <div>
                     <TabsContent value='special' className='w-full flex flex-col gap-y-4'>
                         {tasks.length > 0 && tasks.map((T, _) =>
-                            <EachTaskSpecial key={_} task={T.name} reward={T.points} image={T.icon} id={T.id} />
+                            <EachTaskSpecial key={_} task={T.name} reward={T.points} image={T.image} id={T.id} />
                         )}
                     </TabsContent>
 

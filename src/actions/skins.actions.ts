@@ -1,6 +1,10 @@
 "use server";
 
+import { connectMongoDB } from "@/lib/mongodb";
 import prisma from "@/lib/prisma";
+import Skins from "@/models/skiins";
+
+connectMongoDB();
 
 export type SkinType = {
   id?: string;
@@ -19,14 +23,12 @@ export async function createSkin({
   cost,
 }: SkinType): Promise<"success" | "unknownError"> {
   try {
-    await prisma.skins.create({
-      data: {
-        name,
-        cost: 100,
-        image,
-        league: "first",
-        profitPerHour: 400,
-      },
+    await Skins.create({
+      name,
+      cost: 100,
+      image,
+      league: "first",
+      profitPerHour: 400,
     });
 
     return "success";
@@ -37,23 +39,24 @@ export async function createSkin({
 }
 
 export async function getSkins(): Promise<
-  SkinType[] | "unknownError" | "skinNotFound"
+  (typeof Skins)[] | "unknownError" | "skinNotFound"
 > {
   try {
-    const skins = await prisma.skins.findMany();
-    if (!skins) return "skinNotFound";
+    const skins = await Skins.find();
+    console.log({ skins });
+
     return skins;
-  } catch (e) {
-    console.log(e);
+  } catch (error) {
+    console.log(error);
     return "unknownError";
   }
 }
 
 export async function getSkinById(
   id: string
-): Promise<SkinType | "skinNotFound" | "unknownError"> {
+): Promise<(typeof Skins)[] | "skinNotFound" | "unknownError"> {
   try {
-    const skin = await prisma.skins.findUnique({ where: { id } });
+    const skin = await Skins.findById(id);
     if (!skin) return "skinNotFound";
     return skin;
   } catch (e) {
@@ -66,7 +69,7 @@ export async function deleteSkin(
   id: string
 ): Promise<"success" | "unknonwnError"> {
   try {
-    await prisma.skins.delete({ where: { id } });
+    await Skins.deleteOne({ where: { id } });
     return "success";
   } catch (e) {
     return "unknonwnError";
@@ -89,8 +92,8 @@ export async function skinBuy({
   | { status: "invalidSkin" }
 > {
   try {
-    const skin = await prisma.skins.findUnique({ where: { id } });
-    const user = await prisma.user.findUnique({ where: { chatId } });
+    const skin = await Skins.findById({ where: { id } });
+    const user = await Skins.findById({ where: { chatId } });
     const newBalance = localBalance - skin?.cost!;
 
     if (!user) return { status: "invalidUser" };
@@ -99,10 +102,11 @@ export async function skinBuy({
     if (newBalance < 0) {
       return { status: "insufficientBalance" };
     } else {
-      await prisma.user.update({
+      await Skins.updateOne({
         where: { chatId },
         data: { points: newBalance },
       });
+
       return { points: newBalance, status: "success", image: skin.image };
     }
   } catch (e) {
@@ -111,10 +115,10 @@ export async function skinBuy({
   }
 }
 
-export async function getCurrentSkin({ user }: { user: string }) {
-  const acct = await prisma.user.findUnique({ where: { chatId: user } });
+// export async function getCurrentSkin({ user }: { user: string }) {
+//   const acct: typeof Skins = await Skins.find({ where: { chatId: user } });
 
-  const skin = acct?.skin;
+//   const skin = acct?.skin;
 
-  return skin;
-}
+//   return skin;
+// }
